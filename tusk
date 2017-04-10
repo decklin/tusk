@@ -60,13 +60,13 @@ create_app() {
          --data-urlencode redirect_uris="$oob" \
          --data-urlencode scopes="$app_scopes" \
          ${app_website:+--data-urlencode client_website="$app_website"} \
-         -s "$api_base_uri"/apps > "$app_file" || exit 3
+         -o "$app_file" "$api_base_uri"/apps || exit 3
     echo "OK! Created app #$(jq -r .id "$app_file") with client ID $(jq .client_id "$app_file")"
 }
 
 create_token() {
     client_id=$(jq -r .client_id "$app_file")
-    query=$(curl -w '%{url_effective}' --data-urlencode client_id="$client_id" \
+    query=$(curl -s -w '%{url_effective}' --data-urlencode client_id="$client_id" \
                  --data-urlencode response_type=code \
                  --data-urlencode redirect_uri="$oob" \
                  --data-urlencode scope="$app_scopes" -G / | cut -c 3-)
@@ -79,7 +79,7 @@ create_token() {
          --data-urlencode client_secret="$client_secret" \
          --data-urlencode code="$code" \
          --data-urlencode redirect_uri="$oob" \
-         -s "$auth_base_uri/token" > "$token_file" || exit 3
+         -o "$token_file" "$auth_base_uri/token" || exit 3
     access_token=$(jq -r .access_token "$token_file")
     echo "OK! Created $(jq .token_type "$token_file") token with scope $(jq .scope "$token_file")"
 }

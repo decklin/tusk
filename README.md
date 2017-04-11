@@ -68,6 +68,13 @@ goes in this order:
     Your user ID doesn't change, so as mentioned above, in real-world
     usage you'd probably want to save it rather than looking it up every time.
 
+# Using Another Instance
+
+If you wanted to use a different instance, say, `awoo.space` instead,
+start all your commands (including setup) with:
+
+    tusk -i https://awoo.space
+
 # Thanks
 
 Darius Kazemi implemented

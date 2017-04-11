@@ -1,35 +1,14 @@
 #!/bin/sh
 
-# Wrapper to use curl with the Mastodon API. Setup steps:
+# Usage:
 #
-# 1. Create an app:
-#
-#     tusk -A myapp.json -n 'My App'
-#
-# Specifying the app name with -n is required; specifying a website with
-# -w or changing the scope from the default of 'read write' with -s are
-# optional.
-#
-# 2. Create an access token as your user to post as the app: (for this
-# step, be logged in to a browser as the bot or other user you want the
-# token to apply to)
-#
-#     tusk -a myapp.json -T token.json
-#
-# 3. Use the token as your bot:
-#
-#     tusk -t token.json /accounts/verify_credentials
-#
-# Or, more generally,
+#     tusk -A APP_FILE -n NAME [-w WEBSITE] [-s SCOPES]
+#     tusk -a APP_FILE -T TOKEN_FILE
 #
 #     tusk -t TOKEN_FILE API_RESOURCE [CURL_OPTIONS...]
 #
-# That's it! To help you remember the setup options: capital letters
-# will write files (without asking to overwrite, so be careful!), and
-# lowercase letters will read those files. You need one app JSON file
-# for each piece of code (bot/script/whatever) and then, for each app,
-# one token for each user account that wants that code to do something
-# on its behalf. It's up to you where to store them.
+# For a full description and walkthrough, see README.md in the Tusk
+# distribution.
 
 case $* in --help) exec sed '1,2d;/^$/,$d;s/^#/ /' "$0"; esac
 

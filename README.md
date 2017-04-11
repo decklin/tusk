@@ -50,15 +50,23 @@ goes in this order:
 2. An API resource name (only the part after the base API URI)
 3. `curl` options
 
-To illustrate, here's how you would change your display name after
-creating a token in `token.json`:
+  * To illustrate, here's how you would change your display name after
+    creating a token in `token.json`:
 
-    tusk -t token.json /accounts/update_credentials -X PATCH -F display_name="Today's display name"
+        tusk -t token.json /accounts/update_credentials -X PATCH -F display_name="Today's display name"
 
-(This is actually why I wrote `tusk`! Instead of a literal value there,
-I'm using my nickname followed by a new randomly-selected emoji each
-day, as a goof on the early Mastodon meme of putting a ✅ emoji after
-your name as a fake "verified" symbol.)
+    (This is actually why I wrote `tusk`! Instead of a literal value there,
+    I'm using my nickname followed by a new randomly-selected emoji each
+    day, as a goof on the early Mastodon meme of putting a ✅ emoji after
+    your name as a fake "verified" symbol.)
+
+  * Here's how you could list the accounts you're following:
+
+        my_id=$(tusk -t token.json /accounts/verify_credentials | jq .id)
+        tusk -t token.json /accounts/"$my_id"/following | jq -r '.[].acct'
+
+    Your user ID doesn't change, so as mentioned above, in real-world
+    usage you'd probably want to save it rather than looking it up every time.
 
 # Thanks
 
